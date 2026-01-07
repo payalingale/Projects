@@ -138,21 +138,23 @@ For more details, see:
 
 ## 🤝 API Reference
 
-### `mathTutor(question, mode)`
+### `mathTutor(question, mode, use_thinking=True)`
 
 Main function for math tutoring.
 
 **Parameters:**
 - `question` (str): The math question to ask
 - `mode` (str): Mode of operation (reserved for future use)
+- `use_thinking` (bool): Whether to enable extended thinking (default: True)
+  - **Note:** Extended thinking may require specific API access. If you get parameter errors, try `use_thinking=False`
 
 **Returns:**
 - `tuple`: (thinking_text, response_text)
-  - `thinking_text`: Claude's internal reasoning process
+  - `thinking_text`: Claude's internal reasoning process (None if thinking disabled or not supported)
   - `response_text`: The final answer
 
 **Raises:**
-- `ValueError`: If ANTHROPIC_API_KEY is not set
+- `ValueError`: If ANTHROPIC_API_KEY is not set, or if thinking parameter is not supported
 - `anthropic.APIError`: If there's an API communication error
 
 ### `resetConversation()`
@@ -186,6 +188,11 @@ The derivative of x^2 + 3x + 5 is 2x + 3.
 
 **Error: "No module named 'anthropic'"**
 - Solution: Install with `pip install anthropic`
+
+**Error: "Extended thinking feature may not be available" or parameter errors**
+- Solution: The `thinking` parameter may require specific API access or model support
+- Try using: `mathTutor(question, mode, use_thinking=False)`
+- This disables extended thinking but the function will still work
 
 **Tests are skipped**
 - This is normal if anthropic module is not installed

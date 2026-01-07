@@ -95,10 +95,19 @@ if not api_key:
 3. ✅ **Added imports** - Added `import anthropic` and `import os`
 4. ✅ **Initialized variable** - Added `conversationHistory = []` (also fixed typo)
 5. ✅ **Added API key handling** - Get API key from environment with error handling
-6. ✅ **Added error handling** - Proper exception handling for missing API key
+6. ✅ **Added error handling** - Proper exception handling for missing API key and thinking parameter
 7. ✅ **Added documentation** - Docstrings and comments for clarity
 8. ✅ **Added helper function** - `resetConversation()` to clear history
 9. ✅ **Added example usage** - Demonstrates how to use the function
+10. ✅ **Added thinking parameter flexibility** - Optional `use_thinking` parameter for API compatibility
+
+## Important Note about Extended Thinking
+
+The `thinking` parameter in the original code uses Claude's extended thinking feature. This feature:
+- May require specific API access or model support
+- The model name `claude-sonnet-4-20250514` suggests a future or specialized model
+- If you encounter parameter errors, the fixed implementation allows disabling this with `use_thinking=False`
+- The core fixes (indentation, variable initialization, etc.) apply regardless of whether thinking is enabled
 
 ## How to Use
 

@@ -13,13 +13,15 @@ import os
 conversationHistory = []
 
 
-def mathTutor(question, mode):
+def mathTutor(question, mode, use_thinking=True):
     """
-    Math tutor function that uses Anthropic's Claude API with extended thinking.
+    Math tutor function that uses Anthropic's Claude API with optional extended thinking.
     
     Args:
         question (str): The math question to ask
         mode (str): The mode of operation (currently unused, reserved for future use)
+        use_thinking (bool): Whether to enable extended thinking (default: True)
+                            Note: Extended thinking requires API support
     
     Returns:
         tuple: (thinking_text, response_text) - The thinking process and final response
@@ -27,6 +29,10 @@ def mathTutor(question, mode):
     Raises:
         ValueError: If API key is not set
         anthropic.APIError: If there's an API error
+    
+    Note:
+        The extended thinking feature (thinking parameter) may require specific API access.
+        If you encounter errors, try setting use_thinking=False.
     """
     # Get API key from environment variable
     api_key = os.environ.get('ANTHROPIC_API_KEY')
@@ -42,16 +48,32 @@ def mathTutor(question, mode):
         'content': question
     })
     
-    # Create message with extended thinking enabled
-    messages = client.messages.create(
-        max_tokens=6000,
-        model='claude-sonnet-4-20250514',
-        thinking={
+    # Prepare message parameters
+    message_params = {
+        'max_tokens': 6000,
+        'model': 'claude-sonnet-4-20250514',
+        'messages': conversationHistory
+    }
+    
+    # Add thinking parameter if enabled
+    # Note: This feature may require specific API access or model support
+    if use_thinking:
+        message_params['thinking'] = {
             'type': 'enabled',
             'budget_tokens': 5000
-        },
-        messages=conversationHistory
-    )
+        }
+    
+    # Create message
+    try:
+        messages = client.messages.create(**message_params)
+    except Exception as e:
+        # If thinking parameter causes issues, provide helpful error message
+        if use_thinking and ('thinking' in str(e).lower() or 'parameter' in str(e).lower()):
+            raise ValueError(
+                f"Extended thinking feature may not be available: {e}\n"
+                "Try calling mathTutor with use_thinking=False"
+            ) from e
+        raise
     
     # Extract thinking and response text from the message
     thinking_text = None

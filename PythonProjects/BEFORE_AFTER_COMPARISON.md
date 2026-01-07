@@ -129,9 +129,11 @@ def mathTutor(question, mode):
 | Conversation history | ❌ Undefined `converstionHistory` | ✅ Initialized `conversationHistory = []` |
 | Indentation | ❌ `for` loop not indented | ✅ Properly indented at 4 spaces |
 | Dictionary key | ❌ `'answer'` | ✅ `'content'` |
-| Error handling | ❌ None | ✅ Validates API key exists |
+| Error handling | ❌ None | ✅ Validates API key exists + thinking parameter handling |
 | Documentation | ❌ None | ✅ Docstrings added |
 | Return statement | ❌ Unclear indentation | ✅ Properly indented |
+
+**Note on Extended Thinking:** The `thinking` parameter with extended thinking is a feature that may require specific API access or model support. The fixed implementation includes a `use_thinking` parameter that can be set to `False` if this feature is not available in your API plan.
 
 ---
 

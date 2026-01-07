@@ -69,10 +69,14 @@ class TestMathTutor(unittest.TestCase):
         sig = inspect.signature(mathTutor)
         params = list(sig.parameters.keys())
         
-        # Should have 'question' and 'mode' parameters
-        self.assertEqual(len(params), 2)
+        # Should have 'question', 'mode', and 'use_thinking' parameters
+        self.assertEqual(len(params), 3)
         self.assertIn('question', params)
         self.assertIn('mode', params)
+        self.assertIn('use_thinking', params)
+        
+        # Check that use_thinking has a default value
+        self.assertTrue(sig.parameters['use_thinking'].default is not inspect.Parameter.empty)
 
 
 if __name__ == '__main__':
